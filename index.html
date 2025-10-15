@@ -1,29 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>
-	<title>Internal hosting</title>
-	
-	<style>
-        table {
-    width: 100%; /* Makes the table use the full width */
-    border-collapse: collapse; /* Merges cell borders for a cleaner look */
-}
+    <title>Internal hosting</title>
+    
+    <style>
+        /* Dark Mode Theme */
+        body {
+            background-color: #202124; /* Dark gray background */
+            color: #e8eaed; /* Light gray text for readability */
+            font-family: Arial, sans-serif;
+            padding: 15px;
+        }
 
-/* Apply the border to the header and data cells */
-th, td {
-    border: 1px solid black; /* A 1px solid black border */
-    padding: 8px; /* Adds some space inside the cells */
-    text-align: left; /* Aligns text to the left */
-}
+        h1, h2 {
+            color: #e8eaed;
+            border-bottom: 1px solid #3c4043; /* Subtle separator line */
+            padding-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Merges cell borders for a cleaner look */
+            margin-top: 20px;
+        }
+
+        /* Table header and cell styles */
+        th, td {
+            border: 1px solid #3c4043; /* Lighter border for dark mode */
+            padding: 10px 12px; /* A bit more padding */
+            text-align: left;
+        }
+        
+        /* Table header specific styles */
+        th {
+            background-color: #303134; /* Slightly lighter background for header */
+            color: #bdc1c6;
+            font-weight: bold;
+        }
+
+        /* Alternating row colors for better readability */
+        tr:nth-child(even) {
+            background-color: #282a2d;
+        }
+        
+        /* Style for the 'Key' column to make it stand out */
+        td:first-child {
+            font-weight: bold;
+            color: #8ab4f8; /* A light blue to highlight keys */
+        }
     </style>
 </head>
 <body>
-	<h1>Example of internal hosting</h1>
-	<h2 id="result">Result : </h2>
-	<h2 id="err">Error : </h2>
+    <h1>Example of internal hosting</h1>
+    <h2 id="result">Result : </h2>
+    <h2 id="err">Error : </h2>
     <h2>Github Rendered</h2>
     <table>
             <thead>
@@ -40,17 +73,17 @@ th, td {
     </table>
 </body>
 <script>
-	console.log("before try block inital load");
-	
+    console.log("before try block inital load");
+    
         console.log("try block is running");
-		ZOHO.embeddedApp.on("PageLoad",function(data){
-			document.getElementById("result").innerText += "Loaded Succcesfully";
-			console.log("page load works correct");
-			console.log(data);
-			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordID:data.EntityId})
-			.then(function(response){
-				console.log(response.data[0]);
-				var contact = response.data[0];
+        ZOHO.embeddedApp.on("PageLoad",function(data){
+            document.getElementById("result").innerText += "Loaded Succcesfully";
+            console.log("page load works correct");
+            console.log(data);
+            ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordID:data.EntityId})
+            .then(function(response){
+                console.log(response.data[0]);
+                var contact = response.data[0];
                 var tableBody = document.getElementById("table-body");
                 for(const [key, value] of Object.entries(contact)) {
                     console.log("key : "+key);
@@ -59,7 +92,13 @@ th, td {
                     var keyCell = document.createElement("td");
                     keyCell.textContent = key;
                     var valueCell = document.createElement("td");
-                    valueCell.textContent = value;
+                    
+                    // This logic handles objects cleanly for display
+                    if (typeof value === 'object' && value !== null) {
+                        valueCell.textContent = JSON.stringify(value, null, 2);
+                    } else {
+                        valueCell.textContent = value || "N/A";
+                    }
 
                     row.append(keyCell);
                     row.append(valueCell);
@@ -67,21 +106,21 @@ th, td {
                 }
                 
 
-			}).catch(function(error){
-				document.getElementById("err").innerText += error
-			});
-			console.log("promise has been skipped or neglecated");
-		})
+            }).catch(function(error){
+                document.getElementById("err").innerText += error
+            });
+            console.log("promise has been skipped or neglecated");
+        })
         console.log("no errors till init");
-	ZOHO.embeddedApp.init();
-		//console.log("try block executed sucesfull");
-	
+    ZOHO.embeddedApp.init();
+        //console.log("try block executed sucesfull");
+    
 
-	
-		//onsole.log("error has been ooccured");
-	
-	
-	console.log("programm executed sucessfully");
+    
+        //onsole.log("error has been ooccured");
+    
+    
+    console.log("programm executed sucessfully");
 
 </script>
 </html>
