@@ -31,14 +31,25 @@
 			document.getElementById("result").innerText += "Loaded Succcesfully";
 			console.log("page load works correct");
 			console.log(data);
-			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordID:data.EntityId})
+			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordIDS:data.EntityId})
 			.then(function(response){
 				console.log(response.data[0]);
 				var contact = response.data[0];
+                var tableBody = document.getElementById("table-body");
                 for(const [key, value] of Object.entries(contact)) {
                     console.log("key : "+key);
                     console.log("value : "+value);
+                    var row = document.createElement("tr");
+                    var keyCell = document.createElement("td");
+                    keyCell.textContent = key;
+                    var valueCell = document.createElement("td");
+                    valueCell.textContent = value;
+
+                    row.append(keyCell);
+                    row.append(valueCell);
+                    tableBody.append(row);
                 }
+                
 
 			}).catch(function(error){
 				document.getElementById("err").innerText += error
