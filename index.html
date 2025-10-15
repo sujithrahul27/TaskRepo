@@ -93,12 +93,9 @@
                     keyCell.textContent = key;
                     var valueCell = document.createElement("td");
                     
-                    // This logic handles objects cleanly for display
-                    if (typeof value === 'object' && value !== null) {
-                        valueCell.textContent = JSON.stringify(value, null, 2);
-                    } else {
+                    
                         valueCell.textContent = value || "N/A";
-                    }
+                    
 
                     row.append(keyCell);
                     row.append(valueCell);
