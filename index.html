@@ -6,7 +6,19 @@
     <script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>
 	<title>Internal hosting</title>
 	
-	
+	<style>
+        table {
+    width: 100%; /* Makes the table use the full width */
+    border-collapse: collapse; /* Merges cell borders for a cleaner look */
+}
+
+/* Apply the border to the header and data cells */
+th, td {
+    border: 1px solid black; /* A 1px solid black border */
+    padding: 8px; /* Adds some space inside the cells */
+    text-align: left; /* Aligns text to the left */
+}
+    </style>
 </head>
 <body>
 	<h1>Example of internal hosting</h1>
@@ -14,13 +26,17 @@
 	<h2 id="err">Error : </h2>
     <h2>Github Rendered</h2>
     <table>
-        <tr>
-            <th>Field</th>
-            <th>Value</th>
+            <thead>
+             <tr>
+                <th>Key</th>
+                <th>Value</th>
+             </tr>
+            </thead>
+            
             <tbody id="table-body">
 
             </tbody>
-        </tr>
+        
     </table>
 </body>
 <script>
@@ -31,7 +47,7 @@
 			document.getElementById("result").innerText += "Loaded Succcesfully";
 			console.log("page load works correct");
 			console.log(data);
-			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordIDS:data.EntityId})
+			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordID:data.EntityId})
 			.then(function(response){
 				console.log(response.data[0]);
 				var contact = response.data[0];
