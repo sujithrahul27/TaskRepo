@@ -24,8 +24,9 @@
 			console.log(data);
 			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordId:data.EntityId})
 			.then(function(response){
-				console.log(response);
+				console.log(response.data[0]);
 				document.getElementById("result").innerText += response; 
+
 			}).catch(function(error){
 				document.getElementById("err").innerText += error
 			});
