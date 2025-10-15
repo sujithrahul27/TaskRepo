@@ -16,7 +16,7 @@
 </body>
 <script>
 	console.log("before try block inital load");
-	try{
+	
         console.log("try block is running");
 		ZOHO.embeddedApp.on("PageLoad",function(data){
 			document.getElementById("result").innerText += "Loaded Succcesfully";
@@ -34,11 +34,11 @@
         console.log("no errors till init");
 	ZOHO.embeddedApp.init();
 		console.log("try block executed sucesfull");
-	}
-	catch(e){
+	
+
 		document.getElementById("err").innerText += e;
 		console.log("error has been ooccured");
-	}
+	
 	
 	console.log("programm executed sucessfully");
 
